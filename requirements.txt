@@ -1,0 +1,7 @@
+Flask==2.2.3
+mysql-connector-python==8.0.32
+peewee==3.16.0
+PyMySQL==1.0.2
+python-dotenv==1.0.0
+requests==2.28.2
+
