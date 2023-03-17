@@ -1,20 +1,39 @@
 import requests 
 
-colors_url = 'http://127.0.0.1:5000/api/favorite_color'
+colors_url = 'http://favoritecolor.pythonanywhere.com/api/favorite_color'
+
+favorite_color = input('Please enter your favorite color: ')
 
 # Example JSON to send to API server 
-json_data = {'color': 'green'}
+json_data = {'color': favorite_color}
+add_color_response = requests.post(colors_url, json=json_data)
+add_color_json = add_color_response.json()
 
-# response = requests.post(colors_url, json=json_data)
-# print(response, response.status_code)
+# Optional, information for developers for debugging 
+print(add_color_response.json())  # Hopefully this will be {"result":"Success - color submitted"}
+print(add_color_response.status_code)  # 201
 
-# Get all the favorite colors 
+# Print a message for the user 
+message = add_color_json.get('result')
+print(message)
 
-response = requests.get(colors_url)
-print(response.text, response.status_code)
+# TODO - error handling 
 
 
-# Delete all the colors 
+# Get all the favorite colors submitted so far 
 
-response = requests.delete('http://127.0.0.1:5000/admin/delete_all_colors')
-print(response.text, response.status_code)
+all_colors_response = requests.get(colors_url)
+all_colors_json = all_colors_response.json()
+
+print(all_colors_json)  # For debugging, a list of objects
+# For example [{"name":"purple"},{"name":"orange"}]
+
+# Display the names of all the colors to the user  
+for color in all_colors_json:
+    print(color['name'])
+
+# TODO Error Handling
+
+import requests
+delete_colors_url = 'http://favoritecolor.pythonanywhere.com/admin/delete_all_colors'
+requests.delete(delete_colors_url)
